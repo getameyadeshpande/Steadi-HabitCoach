@@ -250,10 +250,10 @@ function Landing({ onStart }: { onStart: (p: Persona) => void }) {
 /* Journey rail — a calm, legible picture of "still here, later" */
 function RhythmRibbon() {
   const stops = [
-    { label: "Day 1", sub: "You start" },
-    { label: "Week 4", sub: "Most apps lose you" },
-    { label: "Month 3", sub: "Steadi adapts" },
-    { label: "Later", sub: "Still showing up", highlight: true },
+    { label: "Day 1", sub: "Start small, no streaks" },
+    { label: "Week 4", sub: "Others fade around now" },
+    { label: "Month 3", sub: "Adapts to your real life" },
+    { label: "Long run", sub: "The habit finally sticks", highlight: true },
   ];
 
   return (
