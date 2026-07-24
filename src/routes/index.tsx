@@ -247,142 +247,124 @@ function Landing({ onStart }: { onStart: (p: Persona) => void }) {
   );
 }
 
-/* Rhythm ribbon — 24 weeks proving the thesis visually */
+/* Journey rail — a calm, legible picture of "still here, later" */
 function RhythmRibbon() {
-  // 24 weeks × 7 days. Values: "done" | "rest" | "empty" | "today"
-  // Composed to feel real: strong start, a rough patch around w6-w8, quiet
-  // comeback, travel week, sustained but imperfect middle.
-  const weeks = useMemo(() => generateRhythm(), []);
-  const currentWeek = 16;
-
-  // Retention curve points across 24 weeks
-  const curvePath = useMemo(() => {
-    const pts = [
-      [0, 62],
-      [12, 46],
-      [26, 40],
-      [42, 52],
-      [58, 44],
-      [74, 42],
-      [90, 46],
-      [110, 44],
-      [130, 48],
-      [150, 46],
-      [170, 50],
-      [190, 48],
-      [210, 52],
-      [230, 50],
-      [252, 52],
-    ];
-    return pts
-      .map((p, i) => (i === 0 ? `M ${p[0]} ${p[1]}` : `L ${p[0]} ${p[1]}`))
-      .join(" ");
-  }, []);
+  const stops = [
+    { label: "Day 1", sub: "You start" },
+    { label: "Week 4", sub: "Most apps lose you" },
+    { label: "Month 3", sub: "Steadi adapts" },
+    { label: "Later", sub: "Still showing up", highlight: true },
+  ];
 
   return (
-    <div className="mt-6 rounded-2xl border border-border/70 bg-background/60 p-4">
+    <div className="mt-6 overflow-hidden rounded-3xl border border-border/70 bg-background/60 p-5">
       <div className="flex items-center justify-between">
-        <div className="text-[11px] font-medium uppercase tracking-[0.14em] text-primary-deep/80">
-          Six months of real life
+        <div className="text-[11px] font-medium uppercase tracking-[0.16em] text-primary-deep/80">
+          The long game
         </div>
-        <div className="flex items-center gap-2 text-[10px] text-muted-foreground">
-          <span className="flex items-center gap-1">
-            <span className="h-2 w-2 rounded-full bg-primary" />
-            done
-          </span>
-          <span className="flex items-center gap-1">
-            <span className="h-2 w-2 rounded-full bg-primary-soft" />
-            rest
-          </span>
-          <span className="flex items-center gap-1">
-            <span className="h-2 w-2 rounded-full border border-border" />
-            quiet
-          </span>
+        <div className="flex items-center gap-1.5 text-[10px] text-muted-foreground">
+          <span className="h-1.5 w-1.5 rounded-full bg-primary" />
+          your path
         </div>
       </div>
 
-      <div className="relative mt-3">
-        <svg viewBox="0 0 252 84" className="block w-full">
-          {/* baseline */}
-          <line x1="0" y1="72" x2="252" y2="72" stroke="oklch(0.88 0.015 85)" strokeWidth="0.5" />
-          {/* dots */}
-          {weeks.map((week, wi) =>
-            week.map((d, di) => {
-              const x = wi * (252 / 24) + 2;
-              const y = 6 + di * 9;
-              if (d === "done")
-                return <circle key={`${wi}-${di}`} cx={x} cy={y} r="2.6" fill="oklch(0.42 0.055 150)" />;
-              if (d === "rest")
-                return <circle key={`${wi}-${di}`} cx={x} cy={y} r="2.6" fill="oklch(0.9 0.03 145)" />;
-              if (d === "today")
-                return (
-                  <circle
-                    key={`${wi}-${di}`}
-                    cx={x}
-                    cy={y}
-                    r="2.8"
-                    fill="none"
-                    stroke="oklch(0.42 0.055 150)"
-                    strokeWidth="1"
-                    strokeDasharray="1.2 1.2"
-                  />
-                );
-              return (
-                <circle
-                  key={`${wi}-${di}`}
-                  cx={x}
-                  cy={y}
-                  r="1.6"
-                  fill="none"
-                  stroke="oklch(0.88 0.015 85)"
-                  strokeWidth="0.7"
-                />
-              );
-            }),
-          )}
-          {/* sustained curve overlay */}
+      <h3 className="mt-2 font-serif text-[22px] leading-[1.15] text-foreground">
+        Others fade by week four. <span className="text-primary-deep">You&rsquo;re still here.</span>
+      </h3>
+
+      <div className="relative mt-6 pb-2">
+        <svg viewBox="0 0 300 70" className="block w-full">
+          <defs>
+            <linearGradient id="rail" x1="0" x2="1" y1="0" y2="0">
+              <stop offset="0%" stopColor="oklch(0.9 0.03 145)" />
+              <stop offset="55%" stopColor="oklch(0.42 0.055 150)" />
+              <stop offset="100%" stopColor="oklch(0.58 0.12 40)" />
+            </linearGradient>
+            <linearGradient id="fade" x1="0" x2="1" y1="0" y2="0">
+              <stop offset="0%" stopColor="oklch(0.88 0.015 85)" stopOpacity="1" />
+              <stop offset="55%" stopColor="oklch(0.88 0.015 85)" stopOpacity="0" />
+            </linearGradient>
+          </defs>
+
+          {/* competitor curve fading out */}
           <path
-            d={curvePath}
+            d="M 10 34 Q 60 30 100 42 T 160 62"
             fill="none"
-            stroke="oklch(0.34 0.06 150)"
-            strokeWidth="1.2"
+            stroke="url(#fade)"
+            strokeWidth="1.6"
             strokeLinecap="round"
-            opacity="0.55"
+            strokeDasharray="2 3"
           />
-          {/* today marker */}
-          <line
-            x1={currentWeek * (252 / 24) + 2}
-            y1="0"
-            x2={currentWeek * (252 / 24) + 2}
-            y2="80"
-            stroke="oklch(0.42 0.055 150)"
-            strokeWidth="0.6"
-            strokeDasharray="1.5 2"
-            opacity="0.5"
+          <text x="120" y="60" fontSize="7" fill="oklch(0.5 0.02 90)">
+            others drop off
+          </text>
+
+          {/* your steady rail */}
+          <path
+            d="M 10 34 Q 90 30 160 30 T 290 30"
+            fill="none"
+            stroke="url(#rail)"
+            strokeWidth="2.4"
+            strokeLinecap="round"
           />
+
+          {/* stops */}
+          {[10, 100, 190, 290].map((x, i) => (
+            <g key={i}>
+              <circle
+                cx={x}
+                cy={30}
+                r={i === 3 ? 5 : 3.2}
+                fill={i === 3 ? "oklch(0.58 0.12 40)" : "oklch(0.985 0.008 90)"}
+                stroke={i === 3 ? "oklch(0.58 0.12 40)" : "oklch(0.42 0.055 150)"}
+                strokeWidth="1.6"
+              />
+              {i === 3 && (
+                <circle
+                  cx={x}
+                  cy={30}
+                  r="9"
+                  fill="none"
+                  stroke="oklch(0.58 0.12 40)"
+                  strokeWidth="0.8"
+                  opacity="0.45"
+                />
+              )}
+            </g>
+          ))}
         </svg>
 
-        <div className="mt-2 flex justify-between text-[10px] text-muted-foreground">
-          <span>Wk 1</span>
-          <span>Wk 8</span>
-          <span>Wk 16</span>
-          <span>Wk 24</span>
+        <div className="mt-1 grid grid-cols-4 gap-1 text-center">
+          {stops.map((s) => (
+            <div key={s.label} className="flex flex-col">
+              <span
+                className={`text-[11px] font-medium ${
+                  s.highlight ? "text-human" : "text-primary-deep"
+                }`}
+              >
+                {s.label}
+              </span>
+              <span className="text-[10px] leading-tight text-muted-foreground">
+                {s.sub}
+              </span>
+            </div>
+          ))}
         </div>
       </div>
 
-      {/* Coach bubble anchored at the rough patch */}
       <div className="mt-4 flex items-start gap-2 rounded-2xl bg-primary-soft/60 p-3">
         <div className="mt-0.5 flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-primary text-primary-foreground">
           <Sparkles className="h-3 w-3" />
         </div>
         <div className="text-[13px] leading-snug text-primary-deep">
-          <span className="font-medium">Week 7 was heavy.</span> We shrank the goal, kept
-          the rhythm, and picked back up in week nine. That&rsquo;s the plan working.
+          No streaks. No guilt. Steadi bends with your life so the habit
+          <span className="font-medium"> outlasts the motivation.</span>
         </div>
       </div>
     </div>
   );
 }
+
 
 function generateRhythm(): ("done" | "rest" | "empty" | "today")[][] {
   // Curated pattern for 24 weeks
