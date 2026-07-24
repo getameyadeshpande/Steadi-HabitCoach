@@ -13,6 +13,7 @@ import {
   Leaf,
   Moon,
   MessageCircle,
+  Mic,
   Sparkles,
   Utensils,
   UtensilsCrossed,
