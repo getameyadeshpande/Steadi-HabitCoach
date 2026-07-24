@@ -691,6 +691,7 @@ function AppShell({
 function CheckIn({ persona }: { persona: Persona }) {
   const cfg = useMemo(() => getCheckinConfig(persona), [persona]);
   const scrollRef = useRef<HTMLDivElement>(null);
+  const [recording, setRecording] = useState(false);
 
   useEffect(() => {
     if (scrollRef.current) {
