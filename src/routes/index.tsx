@@ -1076,11 +1076,20 @@ function LogScreen() {
 
   return (
     <div className="flex-1 overflow-y-auto px-5 pb-8 pt-5">
-      <h2 className="font-serif text-3xl leading-tight">Habit log</h2>
-      <p className="mt-1 text-[13px] text-muted-foreground">Logging for Thu, 24 Jul</p>
-      <p className="mt-2 text-[13px] text-muted-foreground">
-        Tap what you did. Under 10 seconds, promise.
-      </p>
+      <div className="relative overflow-hidden rounded-3xl border border-border/70 bg-gradient-to-br from-primary-soft/60 via-card to-accent-soft/50 p-5 text-center shadow-sm">
+        <div className="pointer-events-none absolute -right-6 -top-6 h-24 w-24 rounded-full bg-primary/10 blur-2xl" />
+        <div className="pointer-events-none absolute -bottom-8 -left-6 h-24 w-24 rounded-full bg-accent/10 blur-2xl" />
+        <div className="relative">
+          <span className="inline-flex items-center gap-1.5 rounded-full bg-card/80 px-2.5 py-1 text-[10px] font-medium uppercase tracking-[0.14em] text-primary-deep ring-1 ring-primary/20">
+            <span className="h-1.5 w-1.5 rounded-full bg-primary" />
+            Thu, 24 Jul
+          </span>
+          <h2 className="mt-3 font-serif text-3xl leading-tight">Habit log</h2>
+          <p className="mx-auto mt-1.5 max-w-[260px] text-[13px] leading-relaxed text-muted-foreground">
+            Tap what you did. Under 10 seconds, promise.
+          </p>
+        </div>
+      </div>
 
       {/* Activity */}
       <section className="mt-6">
