@@ -1233,20 +1233,13 @@ function ProgressScreen({ persona }: { persona: Persona }) {
       {/* Movement */}
       <Card>
         <CardHeader icon={<Footprints className="h-4 w-4" />} label="Movement" value={`${cfg.movement.reduce((a, b) => a + b, 0)} sessions`} />
-        <div className="mt-4 flex items-end justify-between gap-2 h-24">
-          {cfg.movement.map((v, i) => {
-            const max = Math.max(1, ...cfg.movement);
-            const h = v === 0 ? 8 : (v / max) * 100;
-            return (
-              <div key={i} className="flex flex-1 flex-col items-center gap-1.5">
-                <div
-                  className={`w-full rounded-md ${v === 0 ? "bg-border/70" : "bg-primary"}`}
-                  style={{ height: `${h}%` }}
-                />
-                <span className="text-[10px] text-muted-foreground">{days[i][0]}</span>
-              </div>
-            );
-          })}
+        <div className="mt-4">
+          <BarChart
+            data={cfg.movement}
+            labels={days.map((d) => d[0])}
+            height={96}
+            emptyLabel="Nothing logged yet. Your week is a blank page."
+          />
         </div>
       </Card>
 
