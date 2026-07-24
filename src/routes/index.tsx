@@ -812,26 +812,63 @@ function MessageBubble({ msg }: { msg: Msg }) {
 }
 
 function MiniBars({ data }: { data: number[] }) {
-  const max = Math.max(1, ...data);
   const days = ["M", "T", "W", "T", "F", "S", "S"];
+  return <BarChart data={data} labels={days} height={80} emptyLabel="A quiet week so far. Log when it's useful." />;
+}
+
+function BarChart({
+  data,
+  labels,
+  height,
+  emptyLabel,
+}: {
+  data: number[];
+  labels: string[];
+  height: number;
+  emptyLabel?: string;
+}) {
+  const max = Math.max(1, ...data);
+  const allZero = data.every((v) => v === 0);
   return (
     <div>
-      <div className="flex items-end justify-between gap-1.5 h-20">
-        {data.map((v, i) => {
-          const h = Math.max(6, (v / max) * 100);
-          return (
-            <div key={i} className="flex flex-1 flex-col items-center justify-end gap-1.5">
-              <div
-                className={`w-full rounded-md ${v === 0 ? "bg-border/70" : "bg-primary"}`}
-                style={{ height: `${h}%` }}
-              />
-            </div>
-          );
-        })}
+      <div className="relative" style={{ height }}>
+        {/* gridlines */}
+        <div className="pointer-events-none absolute inset-0 flex flex-col justify-between">
+          {[0, 1, 2, 3].map((i) => (
+            <div key={i} className="h-px w-full bg-border/60" style={{ opacity: i === 3 ? 1 : 0.5 }} />
+          ))}
+        </div>
+        <div className="relative flex h-full items-end justify-between gap-1.5">
+          {data.map((v, i) => {
+            const h = v === 0 ? 6 : Math.max(10, (v / max) * 100);
+            return (
+              <div key={i} className="flex flex-1 items-end justify-center h-full">
+                {v === 0 ? (
+                  <div
+                    className="w-full rounded-md border border-dashed border-border bg-transparent"
+                    style={{ height: `${h}%` }}
+                  />
+                ) : (
+                  <div
+                    className="w-full rounded-md bg-gradient-to-t from-primary-deep to-primary shadow-[0_1px_0_rgba(47,82,51,0.08)]"
+                    style={{ height: `${h}%` }}
+                  />
+                )}
+              </div>
+            );
+          })}
+        </div>
+        {allZero && emptyLabel && (
+          <div className="pointer-events-none absolute inset-0 flex items-center justify-center">
+            <span className="rounded-full bg-card/90 px-3 py-1 text-[11px] leading-relaxed text-muted-foreground shadow-[0_1px_0_rgba(47,82,51,0.04)]">
+              {emptyLabel}
+            </span>
+          </div>
+        )}
       </div>
-      <div className="mt-1.5 flex justify-between px-0.5 text-[10px] text-muted-foreground">
-        {days.map((d, i) => (
-          <span key={i} className="w-4 text-center">
+      <div className="mt-2 flex justify-between px-0.5 text-[10px] text-muted-foreground">
+        {labels.map((d, i) => (
+          <span key={i} className="flex-1 text-center">
             {d}
           </span>
         ))}
