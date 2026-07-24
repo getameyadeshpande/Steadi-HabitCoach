@@ -812,26 +812,63 @@ function MessageBubble({ msg }: { msg: Msg }) {
 }
 
 function MiniBars({ data }: { data: number[] }) {
-  const max = Math.max(1, ...data);
   const days = ["M", "T", "W", "T", "F", "S", "S"];
+  return <BarChart data={data} labels={days} height={80} emptyLabel="A quiet week so far. Log when it's useful." />;
+}
+
+function BarChart({
+  data,
+  labels,
+  height,
+  emptyLabel,
+}: {
+  data: number[];
+  labels: string[];
+  height: number;
+  emptyLabel?: string;
+}) {
+  const max = Math.max(1, ...data);
+  const allZero = data.every((v) => v === 0);
   return (
     <div>
-      <div className="flex items-end justify-between gap-1.5 h-20">
-        {data.map((v, i) => {
-          const h = Math.max(6, (v / max) * 100);
-          return (
-            <div key={i} className="flex flex-1 flex-col items-center justify-end gap-1.5">
-              <div
-                className={`w-full rounded-md ${v === 0 ? "bg-border/70" : "bg-primary"}`}
-                style={{ height: `${h}%` }}
-              />
-            </div>
-          );
-        })}
+      <div className="relative" style={{ height }}>
+        {/* gridlines */}
+        <div className="pointer-events-none absolute inset-0 flex flex-col justify-between">
+          {[0, 1, 2, 3].map((i) => (
+            <div key={i} className="h-px w-full bg-border/60" style={{ opacity: i === 3 ? 1 : 0.5 }} />
+          ))}
+        </div>
+        <div className="relative flex h-full items-end justify-between gap-1.5">
+          {data.map((v, i) => {
+            const h = v === 0 ? 6 : Math.max(10, (v / max) * 100);
+            return (
+              <div key={i} className="flex flex-1 items-end justify-center h-full">
+                {v === 0 ? (
+                  <div
+                    className="w-full rounded-md border border-dashed border-border bg-transparent"
+                    style={{ height: `${h}%` }}
+                  />
+                ) : (
+                  <div
+                    className="w-full rounded-md bg-gradient-to-t from-primary-deep to-primary shadow-[0_1px_0_rgba(47,82,51,0.08)]"
+                    style={{ height: `${h}%` }}
+                  />
+                )}
+              </div>
+            );
+          })}
+        </div>
+        {allZero && emptyLabel && (
+          <div className="pointer-events-none absolute inset-0 flex items-center justify-center">
+            <span className="rounded-full bg-card/90 px-3 py-1 text-[11px] leading-relaxed text-muted-foreground shadow-[0_1px_0_rgba(47,82,51,0.04)]">
+              {emptyLabel}
+            </span>
+          </div>
+        )}
       </div>
-      <div className="mt-1.5 flex justify-between px-0.5 text-[10px] text-muted-foreground">
-        {days.map((d, i) => (
-          <span key={i} className="w-4 text-center">
+      <div className="mt-2 flex justify-between px-0.5 text-[10px] text-muted-foreground">
+        {labels.map((d, i) => (
+          <span key={i} className="flex-1 text-center">
             {d}
           </span>
         ))}
@@ -1196,20 +1233,13 @@ function ProgressScreen({ persona }: { persona: Persona }) {
       {/* Movement */}
       <Card>
         <CardHeader icon={<Footprints className="h-4 w-4" />} label="Movement" value={`${cfg.movement.reduce((a, b) => a + b, 0)} sessions`} />
-        <div className="mt-4 flex items-end justify-between gap-2 h-24">
-          {cfg.movement.map((v, i) => {
-            const max = Math.max(1, ...cfg.movement);
-            const h = v === 0 ? 8 : (v / max) * 100;
-            return (
-              <div key={i} className="flex flex-1 flex-col items-center gap-1.5">
-                <div
-                  className={`w-full rounded-md ${v === 0 ? "bg-border/70" : "bg-primary"}`}
-                  style={{ height: `${h}%` }}
-                />
-                <span className="text-[10px] text-muted-foreground">{days[i][0]}</span>
-              </div>
-            );
-          })}
+        <div className="mt-4">
+          <BarChart
+            data={cfg.movement}
+            labels={days.map((d) => d[0])}
+            height={96}
+            emptyLabel="Nothing logged yet. Your week is a blank page."
+          />
         </div>
       </Card>
 
@@ -1307,9 +1337,22 @@ function CardHeader({
 
 function RetentionChart() {
   return (
-    <svg viewBox="0 0 300 130" className="block w-full">
-      {/* baseline */}
-      <line x1="0" y1="110" x2="300" y2="110" stroke="oklch(0.88 0.015 85)" strokeWidth="1" />
+    <svg viewBox="0 0 300 140" className="block w-full">
+      <defs>
+        <linearGradient id="steadiFill" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stopColor="oklch(0.42 0.055 150)" stopOpacity="0.18" />
+          <stop offset="100%" stopColor="oklch(0.42 0.055 150)" stopOpacity="0" />
+        </linearGradient>
+      </defs>
+      {/* gridlines */}
+      {[20, 50, 80, 110].map((y) => (
+        <line key={y} x1="0" y1={y} x2="300" y2={y} stroke="oklch(0.88 0.015 85)" strokeWidth="1" opacity={y === 110 ? 1 : 0.5} />
+      ))}
+      {/* steadi fill */}
+      <path
+        d="M 4 90 C 60 76, 120 68, 180 62 S 260 52, 296 50 L 296 110 L 4 110 Z"
+        fill="url(#steadiFill)"
+      />
       {/* typical program */}
       <path
         d="M 4 78 C 40 30, 80 22, 120 34 S 200 108, 296 116"
@@ -1326,16 +1369,20 @@ function RetentionChart() {
         strokeWidth="2.4"
         strokeLinecap="round"
       />
-      <text x="200" y="46" fontSize="10" fill="oklch(0.34 0.06 150)" fontWeight="600">
+      <circle cx="296" cy="50" r="3.5" fill="oklch(0.42 0.055 150)" />
+      <text x="196" y="44" fontSize="10" fill="oklch(0.34 0.06 150)" fontWeight="600">
         Steadi
       </text>
-      <text x="200" y="112" fontSize="10" fill="oklch(0.5 0.02 90)">
+      <text x="176" y="108" fontSize="10" fill="oklch(0.5 0.02 90)">
         Typical program
       </text>
-      <text x="4" y="126" fontSize="9" fill="oklch(0.5 0.02 90)">
+      <text x="4" y="130" fontSize="9" fill="oklch(0.5 0.02 90)">
         Wk 1
       </text>
-      <text x="270" y="126" fontSize="9" fill="oklch(0.5 0.02 90)">
+      <text x="140" y="130" fontSize="9" fill="oklch(0.5 0.02 90)">
+        Wk 12
+      </text>
+      <text x="270" y="130" fontSize="9" fill="oklch(0.5 0.02 90)">
         Wk 24+
       </text>
     </svg>
