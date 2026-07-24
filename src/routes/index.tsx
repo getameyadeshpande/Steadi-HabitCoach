@@ -1337,9 +1337,22 @@ function CardHeader({
 
 function RetentionChart() {
   return (
-    <svg viewBox="0 0 300 130" className="block w-full">
-      {/* baseline */}
-      <line x1="0" y1="110" x2="300" y2="110" stroke="oklch(0.88 0.015 85)" strokeWidth="1" />
+    <svg viewBox="0 0 300 140" className="block w-full">
+      <defs>
+        <linearGradient id="steadiFill" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stopColor="oklch(0.42 0.055 150)" stopOpacity="0.18" />
+          <stop offset="100%" stopColor="oklch(0.42 0.055 150)" stopOpacity="0" />
+        </linearGradient>
+      </defs>
+      {/* gridlines */}
+      {[20, 50, 80, 110].map((y) => (
+        <line key={y} x1="0" y1={y} x2="300" y2={y} stroke="oklch(0.88 0.015 85)" strokeWidth="1" opacity={y === 110 ? 1 : 0.5} />
+      ))}
+      {/* steadi fill */}
+      <path
+        d="M 4 90 C 60 76, 120 68, 180 62 S 260 52, 296 50 L 296 110 L 4 110 Z"
+        fill="url(#steadiFill)"
+      />
       {/* typical program */}
       <path
         d="M 4 78 C 40 30, 80 22, 120 34 S 200 108, 296 116"
@@ -1356,16 +1369,20 @@ function RetentionChart() {
         strokeWidth="2.4"
         strokeLinecap="round"
       />
-      <text x="200" y="46" fontSize="10" fill="oklch(0.34 0.06 150)" fontWeight="600">
+      <circle cx="296" cy="50" r="3.5" fill="oklch(0.42 0.055 150)" />
+      <text x="196" y="44" fontSize="10" fill="oklch(0.34 0.06 150)" fontWeight="600">
         Steadi
       </text>
-      <text x="200" y="112" fontSize="10" fill="oklch(0.5 0.02 90)">
+      <text x="176" y="108" fontSize="10" fill="oklch(0.5 0.02 90)">
         Typical program
       </text>
-      <text x="4" y="126" fontSize="9" fill="oklch(0.5 0.02 90)">
+      <text x="4" y="130" fontSize="9" fill="oklch(0.5 0.02 90)">
         Wk 1
       </text>
-      <text x="270" y="126" fontSize="9" fill="oklch(0.5 0.02 90)">
+      <text x="140" y="130" fontSize="9" fill="oklch(0.5 0.02 90)">
+        Wk 12
+      </text>
+      <text x="270" y="130" fontSize="9" fill="oklch(0.5 0.02 90)">
         Wk 24+
       </text>
     </svg>
