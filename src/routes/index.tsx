@@ -13,6 +13,7 @@ import {
   Leaf,
   Moon,
   MessageCircle,
+  Mic,
   Sparkles,
   Utensils,
   UtensilsCrossed,
@@ -690,6 +691,7 @@ function AppShell({
 function CheckIn({ persona }: { persona: Persona }) {
   const cfg = useMemo(() => getCheckinConfig(persona), [persona]);
   const scrollRef = useRef<HTMLDivElement>(null);
+  const [recording, setRecording] = useState(false);
 
   useEffect(() => {
     if (scrollRef.current) {
@@ -767,12 +769,39 @@ function CheckIn({ persona }: { persona: Persona }) {
 
       {/* Composer */}
       <div className="sticky bottom-0 mt-6 -mx-5 border-t border-border bg-background/90 px-5 py-3 backdrop-blur">
+        {recording && (
+          <div className="mb-2 flex items-center justify-between rounded-full bg-human-soft/70 px-3 py-1.5 text-[11px] text-human-foreground">
+            <span className="flex items-center gap-1.5">
+              <span className="relative flex h-2 w-2">
+                <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-human opacity-70" />
+                <span className="relative inline-flex h-2 w-2 rounded-full bg-human" />
+              </span>
+              Listening… tap the mic to stop
+            </span>
+            <span className="font-medium tabular-nums">0:04</span>
+          </div>
+        )}
         <div className="flex items-center gap-2 rounded-full border border-border bg-card px-4 py-2">
           <input
-            placeholder="Reply to your coach"
+            placeholder={recording ? "Recording your voice note…" : "Reply to your coach"}
             className="flex-1 bg-transparent text-[14px] outline-none placeholder:text-muted-foreground/70"
           />
-          <button className="flex h-8 w-8 items-center justify-center rounded-full bg-primary text-primary-foreground">
+          <button
+            onClick={() => setRecording((r) => !r)}
+            aria-label={recording ? "Stop voice note" : "Start voice note"}
+            aria-pressed={recording}
+            className={`flex h-8 w-8 items-center justify-center rounded-full transition-colors ${
+              recording
+                ? "bg-human text-human-foreground"
+                : "bg-primary-soft text-primary-deep hover:bg-primary-soft/80"
+            }`}
+          >
+            <Mic className="h-4 w-4" />
+          </button>
+          <button
+            aria-label="Send reply"
+            className="flex h-8 w-8 items-center justify-center rounded-full bg-primary text-primary-foreground"
+          >
             <ArrowRight className="h-4 w-4" />
           </button>
         </div>
