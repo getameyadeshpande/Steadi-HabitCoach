@@ -87,10 +87,14 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       {
         property: "og:description",
         content:
-          "An AI habit coach built for the long run. No streaks, no guilt, no end date.",
+          "An AI habit coach built for the long run. No streaks, no guilt, no end date. Steadi adapts with you through rest days, busy weeks, and real life.",
       },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
+      { name: "twitter:title", content: "Steadi — Habit coaching for real life" },
+      { name: "twitter:description", content: "An AI habit coach built for the long run. No streaks, no guilt, no end date. Steadi adapts with you through rest days, busy weeks, and real life." },
+      { property: "og:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/59a3b01d-dd92-4845-8c52-df71190d8919/id-preview-71151504--582d635b-32b9-43a0-bf27-f9e3b362fb95.lovable.app-1784894410855.png" },
+      { name: "twitter:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/59a3b01d-dd92-4845-8c52-df71190d8919/id-preview-71151504--582d635b-32b9-43a0-bf27-f9e3b362fb95.lovable.app-1784894410855.png" },
     ],
     links: [
       { rel: "stylesheet", href: appCss },
