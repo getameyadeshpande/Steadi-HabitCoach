@@ -252,7 +252,7 @@ function RhythmRibbon() {
   const stops = [
     { label: "Day 1", sub: "Start small, no streaks" },
     { label: "Week 4", sub: "Others fade around now" },
-    { label: "Month 3", sub: "Adapts to your real life" },
+    { label: "Month 2", sub: "Adapts to your real life" },
     { label: "Long run", sub: "The habit finally sticks", highlight: true },
   ];
 
