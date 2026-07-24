@@ -96,13 +96,13 @@ function Landing({ onStart }: { onStart: (p: Persona) => void }) {
   return (
     <div className="flex flex-col gap-8 px-5 pb-14 pt-10">
       {/* Brand */}
-      <header className="flex flex-col items-start gap-4">
+      <header className="flex flex-col items-center gap-4 text-center">
         <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-primary text-primary-foreground shadow-[0_2px_0_rgba(47,82,51,0.08)]">
           <Leaf className="h-6 w-6" strokeWidth={1.75} />
         </div>
-        <div>
+        <div className="flex flex-col items-center">
           <h1 className="font-serif text-5xl leading-none text-foreground">Steadi</h1>
-          <p className="mt-3 max-w-[22ch] text-[15px] leading-relaxed text-muted-foreground">
+          <p className="mt-3 max-w-[26ch] text-[15px] leading-relaxed text-muted-foreground">
             Habit coaching for real life. No streaks, no guilt, no end date.
           </p>
         </div>
@@ -117,7 +117,7 @@ function Landing({ onStart }: { onStart: (p: Persona) => void }) {
           </p>
         </div>
         <h2 className="mt-3 font-serif text-[34px] leading-[1.05] text-foreground">
-          Still here in month six.
+          Habits that outlast the hype.
         </h2>
         <p className="mt-3 text-[15px] leading-relaxed text-muted-foreground">
           Most habit apps peak in week one. Steadi is designed for the messy middle. Sick
