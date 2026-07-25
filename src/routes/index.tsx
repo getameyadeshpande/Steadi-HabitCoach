@@ -104,9 +104,9 @@ function Landing({ onStart }: { onStart: (p: Persona) => void }) {
   };
 
   return (
-    <div className="relative flex flex-col gap-8 px-5 pb-24 pt-6">
+    <div className="relative flex flex-col gap-5 px-5 pb-24 pt-5">
       {/* Brand */}
-      <header className="flex flex-col items-center gap-3 text-center">
+      <header className="flex flex-col items-center gap-2 text-center">
         <div className="flex items-center gap-2.5">
           <div className="flex h-10 w-10 items-center justify-center rounded-2xl bg-primary text-primary-foreground shadow-[0_2px_0_rgba(47,82,51,0.08)]">
             <Leaf className="h-5 w-5" strokeWidth={1.75} />
