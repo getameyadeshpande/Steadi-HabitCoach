@@ -260,6 +260,19 @@ function Landing({ onStart }: { onStart: (p: Persona) => void }) {
       <footer className="pt-2 text-center text-[11px] text-muted-foreground">
         A prototype. No account, no data stored.
       </footer>
+
+      {/* Floating Join now CTA */}
+      <div className="fixed bottom-0 left-0 right-0 z-50 p-4">
+        <div className="mx-auto w-full max-w-[440px]">
+          <button
+            onClick={scrollToAuth}
+            className="flex h-14 w-full items-center justify-center gap-2 rounded-full bg-primary text-[16px] font-semibold text-primary-foreground shadow-[0_4px_24px_rgba(47,82,51,0.22)] transition-transform active:scale-[0.99]"
+          >
+            Join now
+            <ArrowRight className="h-4 w-4" strokeWidth={2} />
+          </button>
+        </div>
+      </div>
     </div>
   );
 }
