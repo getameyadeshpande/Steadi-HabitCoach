@@ -159,7 +159,14 @@ function Landing({ onStart }: { onStart: (p: Persona) => void }) {
       </section>
 
       {/* Auth */}
-      <section className="flex flex-col gap-3">
+      <section
+        ref={authRef}
+        className={`flex scroll-mt-6 flex-col gap-3 rounded-3xl p-4 transition-all duration-500 ${
+          highlight
+            ? "bg-primary-soft/50 ring-2 ring-primary/40"
+            : "bg-transparent ring-2 ring-transparent"
+        }`}
+      >
         <label className="flex flex-col gap-1.5">
           <span className="text-[12px] font-medium text-muted-foreground">Email</span>
           <input
