@@ -94,20 +94,38 @@ function SteadiApp() {
 /* ------------------------------------------------------------------ */
 
 function Landing({ onStart }: { onStart: (p: Persona) => void }) {
+  const authRef = useRef<HTMLElement | null>(null);
+  const [highlight, setHighlight] = useState(false);
+
+  const scrollToAuth = () => {
+    authRef.current?.scrollIntoView({ behavior: "smooth", block: "center" });
+    setHighlight(true);
+    window.setTimeout(() => setHighlight(false), 1600);
+  };
+
   return (
-    <div className="flex flex-col gap-8 px-5 pb-14 pt-10">
+    <div className="flex flex-col gap-8 px-5 pb-14 pt-6">
       {/* Brand */}
-      <header className="flex flex-col items-center gap-4 text-center">
-        <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-primary text-primary-foreground shadow-[0_2px_0_rgba(47,82,51,0.08)]">
-          <Leaf className="h-6 w-6" strokeWidth={1.75} />
+      <header className="flex flex-col gap-3">
+        <div className="flex items-center justify-between">
+          <div className="flex items-center gap-2.5">
+            <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-primary text-primary-foreground shadow-[0_2px_0_rgba(47,82,51,0.08)]">
+              <Leaf className="h-5 w-5" strokeWidth={1.75} />
+            </div>
+            <h1 className="font-serif text-[30px] leading-none text-foreground">Steadi</h1>
+          </div>
+          <button
+            onClick={scrollToAuth}
+            className="rounded-full border border-primary/25 bg-primary-soft/60 px-4 py-2 text-[13px] font-semibold text-primary-deep transition-colors hover:bg-primary-soft active:scale-[0.98]"
+          >
+            Join now
+          </button>
         </div>
-        <div className="flex flex-col items-center">
-          <h1 className="font-serif text-5xl leading-none text-foreground">Steadi</h1>
-          <p className="mt-3 max-w-[26ch] text-[15px] leading-relaxed text-muted-foreground">
-            Habit coaching for real life. No streaks, no guilt, no end date.
-          </p>
-        </div>
+        <p className="max-w-[34ch] text-[15px] leading-relaxed text-muted-foreground">
+          Habit coaching for real life. No streaks, no guilt, no end date.
+        </p>
       </header>
+
 
       {/* Thesis hero */}
       <section className="rounded-3xl border border-border bg-card p-6 shadow-[0_2px_0_rgba(47,82,51,0.03)]">
@@ -141,7 +159,14 @@ function Landing({ onStart }: { onStart: (p: Persona) => void }) {
       </section>
 
       {/* Auth */}
-      <section className="flex flex-col gap-3">
+      <section
+        ref={authRef}
+        className={`flex scroll-mt-6 flex-col gap-3 rounded-3xl p-4 transition-all duration-500 ${
+          highlight
+            ? "bg-primary-soft/50 ring-2 ring-primary/40"
+            : "bg-transparent ring-2 ring-transparent"
+        }`}
+      >
         <label className="flex flex-col gap-1.5">
           <span className="text-[12px] font-medium text-muted-foreground">Email</span>
           <input
