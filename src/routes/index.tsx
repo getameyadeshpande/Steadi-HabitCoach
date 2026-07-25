@@ -782,15 +782,16 @@ function CheckIn({ persona }: { persona: Persona }) {
       {/* Composer */}
       <div className="sticky bottom-0 mt-6 -mx-5 border-t border-border bg-background/90 px-5 py-3 backdrop-blur">
         {recording && (
-          <div className="mb-2 flex items-center justify-between rounded-full bg-human-soft/70 px-3 py-1.5 text-[11px] text-human-foreground">
-            <span className="flex items-center gap-1.5">
-              <span className="relative flex h-2 w-2">
-                <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-human opacity-70" />
-                <span className="relative inline-flex h-2 w-2 rounded-full bg-human" />
+          <div className="mb-2 flex items-center justify-between rounded-full bg-human px-3 py-2 text-[12px] font-medium text-human-foreground shadow-sm">
+            <span className="flex items-center gap-2">
+              <span className="relative flex h-3 w-3">
+                <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-human-foreground opacity-60" />
+                <span className="absolute inline-flex h-full w-full animate-pulse rounded-full bg-human-foreground opacity-30" />
+                <span className="relative inline-flex h-3 w-3 rounded-full bg-human-foreground" />
               </span>
               Listening… tap the mic to stop
             </span>
-            <span className="font-medium tabular-nums">0:04</span>
+            <span className="font-semibold tabular-nums">0:04</span>
           </div>
         )}
         <div className="flex items-center gap-2 rounded-full border border-border bg-card px-4 py-2">
