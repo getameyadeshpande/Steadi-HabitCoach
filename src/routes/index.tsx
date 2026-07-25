@@ -104,24 +104,16 @@ function Landing({ onStart }: { onStart: (p: Persona) => void }) {
   };
 
   return (
-    <div className="flex flex-col gap-8 px-5 pb-14 pt-6">
+    <div className="relative flex flex-col gap-8 px-5 pb-24 pt-6">
       {/* Brand */}
-      <header className="flex flex-col gap-3">
-        <div className="flex items-center justify-between">
-          <div className="flex items-center gap-2.5">
-            <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-primary text-primary-foreground shadow-[0_2px_0_rgba(47,82,51,0.08)]">
-              <Leaf className="h-5 w-5" strokeWidth={1.75} />
-            </div>
-            <h1 className="font-serif text-[30px] leading-none text-foreground">Steadi</h1>
+      <header className="flex flex-col items-center gap-3 text-center">
+        <div className="flex items-center gap-2.5">
+          <div className="flex h-10 w-10 items-center justify-center rounded-2xl bg-primary text-primary-foreground shadow-[0_2px_0_rgba(47,82,51,0.08)]">
+            <Leaf className="h-5 w-5" strokeWidth={1.75} />
           </div>
-          <button
-            onClick={scrollToAuth}
-            className="rounded-full border border-primary/25 bg-primary-soft/60 px-4 py-2 text-[13px] font-semibold text-primary-deep transition-colors hover:bg-primary-soft active:scale-[0.98]"
-          >
-            Join now
-          </button>
+          <h1 className="font-serif text-[32px] leading-none text-foreground">Steadi</h1>
         </div>
-        <p className="max-w-[34ch] text-[15px] leading-relaxed text-muted-foreground">
+        <p className="max-w-[36ch] text-[15px] leading-relaxed text-muted-foreground">
           Habit coaching for real life. No streaks, no guilt, no end date.
         </p>
       </header>
@@ -268,6 +260,19 @@ function Landing({ onStart }: { onStart: (p: Persona) => void }) {
       <footer className="pt-2 text-center text-[11px] text-muted-foreground">
         A prototype. No account, no data stored.
       </footer>
+
+      {/* Floating Join now CTA */}
+      <div className="fixed bottom-0 left-0 right-0 z-50 p-4">
+        <div className="mx-auto w-full max-w-[440px]">
+          <button
+            onClick={scrollToAuth}
+            className="flex h-14 w-full items-center justify-center gap-2 rounded-full bg-primary text-[16px] font-semibold text-primary-foreground shadow-[0_4px_24px_rgba(47,82,51,0.22)] transition-transform active:scale-[0.99]"
+          >
+            Join now
+            <ArrowRight className="h-4 w-4" strokeWidth={2} />
+          </button>
+        </div>
+      </div>
     </div>
   );
 }
